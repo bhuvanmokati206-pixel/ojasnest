@@ -1,0 +1,50 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    background-color: #0B0D11;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+  }
+}
+
+/* Matte Slate Card Panels */
+.matte-panel {
+  background-color: #11141A;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  transition: all 0.2s ease-in-out;
+}
+
+.matte-panel:hover {
+  background-color: #161A22;
+  border-color: rgba(255, 255, 255, 0.14);
+}
+
+/* Subtle Satin Buttons */
+.btn-solid-sand {
+  background-color: #C5A880;
+  color: #0B0D11;
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  transition: all 0.15s ease-in-out;
+}
+
+.btn-solid-sand:hover {
+  background-color: #B3956D;
+}
+
+.btn-outline-titanium {
+  background-color: #161A22;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #E2E8F0;
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 600;
+  transition: all 0.15s ease-in-out;
+}
+
+.btn-outline-titanium:hover {
+  background-color: #1E232E;
+  border-color: rgba(255, 255, 255, 0.2);
+  color: #FFFFFF;
+}
