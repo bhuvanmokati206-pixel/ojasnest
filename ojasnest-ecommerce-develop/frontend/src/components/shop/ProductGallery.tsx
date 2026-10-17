@@ -4,23 +4,29 @@ export const ProductGallery: React.FC<{ images: string[]; title: string }> = ({ 
   const [active, setActive] = useState(images[0] || '/placeholder.png');
 
   return (
-    <div className="space-y-4">
-      <div className="bg-slate-900 border border-slate-800 rounded-xl p-6 flex items-center justify-center h-80 sm:h-96">
-        <img src={active} alt={title} className="max-h-full object-contain" />
-      </div>
+    <div className="flex flex-col gap-4 md:flex-row">
       {images.length > 1 && (
-        <div className="flex gap-3 overflow-x-auto pb-2">
+        <div className="order-2 flex gap-3 overflow-x-auto pb-1 md:order-1 md:w-16 md:flex-col md:overflow-x-visible md:overflow-y-auto md:pb-0">
           {images.map((img, idx) => (
             <button
               key={idx}
               onClick={() => setActive(img)}
-              className={`w-16 h-16 rounded-lg border p-1 bg-slate-950 flex-shrink-0 transition ${active === img ? 'border-amber-400' : 'border-slate-800 opacity-60 hover:opacity-100'}`}
+              aria-label={`Show product image ${idx + 1}`}
+              aria-pressed={active === img}
+              className={`h-16 w-16 flex-shrink-0 overflow-hidden rounded-lg border bg-white p-1 transition ${
+                active === img
+                  ? 'border-[#FF4D00]'
+                  : 'border-neutral-300 opacity-70 hover:opacity-100'
+              }`}
             >
-              <img src={img} alt="" className="w-full h-full object-contain" />
+              <img src={img} alt="" className="h-full w-full rounded object-cover" />
             </button>
           ))}
         </div>
       )}
+      <div className="order-1 flex min-h-[420px] flex-1 items-center justify-center overflow-hidden rounded-xl bg-[#E9E4DA] sm:min-h-[560px] md:order-2">
+        <img src={active} alt={title} className="h-full max-h-[680px] w-full object-contain" />
+      </div>
     </div>
   );
 };
