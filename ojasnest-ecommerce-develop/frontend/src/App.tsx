@@ -1,17 +1,17 @@
-import React from 'react';
-import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
+import React, { useState } from 'react';
+import { BrowserRouter, Routes, Route, useLocation, Navigate } from 'react-router-dom';
 
 // Common Layout & Overlays
 import { Navbar } from './components/common/Navbar';
 import { Footer } from './components/common/Footer';
 import { ProtectedRoute } from './components/common/ProtectedRoute';
 import { LiveChatModal } from './components/chat/LiveChatModal';
+import { CartDrawer } from './components/shop/CartDrawer';
 
 // Consumer Store Pages
 import { HomePage } from './pages/HomePage';
 import { CategoryPage } from './pages/CategoryPage';
 import { ProductDetailPage } from './pages/ProductDetailPage';
-import { CartPage } from './pages/CartPage';
 import { CheckoutPage } from './pages/CheckoutPage';
 import { OrderSuccessPage } from './pages/OrderSuccessPage';
 import { OrderTrackingPage } from './pages/OrderTrackingPage';
@@ -28,11 +28,12 @@ import { AdminOrdersPage } from './pages/admin/AdminOrdersPage';
 const AppLayout: React.FC = () => {
   const location = useLocation();
   const isAdmin = location.pathname.startsWith('/admin');
+  const [cartOpen, setCartOpen] = useState(false);
 
   return (
     <div className="min-h-screen bg-[#090B0E] text-neutral-200 flex flex-col font-sans antialiased selection:bg-[#FF4D00] selection:text-white">
       {/* Hide storefront header on admin dashboard */}
-      {!isAdmin && <Navbar />}
+      {!isAdmin && <Navbar onOpenCart={() => setCartOpen(true)} />}
 
       <main className="flex-1 bg-[#090B0E]">
         <Routes>
@@ -41,7 +42,7 @@ const AppLayout: React.FC = () => {
           <Route path="/offers" element={<OffersPage />} />
           <Route path="/category/:slug" element={<CategoryPage />} />
           <Route path="/product/:slug" element={<ProductDetailPage />} />
-          <Route path="/cart" element={<CartPage />} />
+          <Route path="/cart" element={<Navigate to="/" replace />} />
           <Route path="/checkout" element={<CheckoutPage />} />
           <Route path="/checkout/success" element={<OrderSuccessPage />} />
           <Route path="/orders/track/:orderId" element={<OrderTrackingPage />} />
@@ -57,6 +58,7 @@ const AppLayout: React.FC = () => {
       </main>
 
       {!isAdmin && <LiveChatModal />}
+      {!isAdmin && <CartDrawer isOpen={cartOpen} onClose={() => setCartOpen(false)} />}
       {!isAdmin && <Footer />}
     </div>
   );

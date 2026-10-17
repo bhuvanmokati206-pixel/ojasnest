@@ -4,6 +4,7 @@ import api from '../api/client';
 import { Product } from '../types';
 import { ProductGrid } from '../components/shop/ProductGrid';
 import { SkeletonLoader } from '../components/ui/SkeletonLoader';
+import { demoTrimmer } from '../data/demoTrimmer';
 
 export const CategoryPage: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -13,8 +14,19 @@ export const CategoryPage: React.FC = () => {
   useEffect(() => {
     setLoading(true);
     api.get(`/products?category=${slug}`)
-      .then((res) => setProducts(res.data))
-      .catch(console.error)
+      .then((res) => {
+        const categoryProducts: Product[] = res.data;
+        setProducts(
+          slug === 'grooming' &&
+            !categoryProducts.some((product) => product.slug === demoTrimmer.slug)
+            ? [demoTrimmer, ...categoryProducts]
+            : categoryProducts
+        );
+      })
+      .catch((error) => {
+        console.error('Unable to load category products:', error);
+        setProducts(slug === 'grooming' ? [demoTrimmer] : []);
+      })
       .finally(() => setLoading(false));
   }, [slug]);
 
