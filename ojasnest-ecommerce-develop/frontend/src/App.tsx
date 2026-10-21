@@ -19,6 +19,7 @@ import { UserProfilePage } from './pages/UserProfilePage';
 import { LoginPage } from './pages/LoginPage';
 import { RegisterPage } from './pages/RegisterPage';
 import { OffersPage } from './pages/OffersPage';
+import { DealPage } from './pages/deal';
 
 // Admin Portal Pages
 import { AdminDashboardPage } from './pages/admin/AdminDashboardPage';
@@ -40,6 +41,8 @@ const AppLayout: React.FC = () => {
           {/* Storefront Routes */}
           <Route path="/" element={<HomePage />} />
           <Route path="/offers" element={<OffersPage />} />
+          <Route path="/deal" element={<DealPage />} />
+          <Route path="/deals" element={<DealPage />} />
           <Route path="/category/:slug" element={<CategoryPage />} />
           <Route path="/product/:slug" element={<ProductDetailPage />} />
           <Route path="/cart" element={<Navigate to="/" replace />} />

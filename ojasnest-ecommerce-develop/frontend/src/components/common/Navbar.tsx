@@ -64,6 +64,7 @@ export const Navbar: React.FC<{ onOpenCart: () => void }> = ({ onOpenCart }) => 
             { label: 'GaN-POWER BANK', path: '/category/chargers' },
             { label: 'WIRELESS CHARGERS', path: '/category/wireless-chargers' },
             { label: 'OTHERS', path: '/category/accessories' },
+            { label: '🔥 HOT DEALS', path: '/deal', isDrop: true },
             { label: 'BEST SELLERS', path: '/#products', isDrop: true },
           ].map((item) => (
             <Link
