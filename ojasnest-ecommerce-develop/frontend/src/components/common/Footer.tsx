@@ -22,6 +22,7 @@ export const Footer: React.FC = () => {
         {/* Column 1 */}
         <div className="flex flex-col gap-2.5 font-mono">
           <h4 className="font-bold text-white uppercase text-[11px] tracking-wider mb-1">  HARDWARE</h4>
+          <Link to="/best-sellers" className="hover:text-white transition-colors">Best Sellers</Link>
           <Link to="/category/grooming" className="hover:text-white transition-colors">Titanium Trimmers</Link>
           <Link to="/category/chargers" className="hover:text-white transition-colors">GaN Power Systems</Link>
           <Link to="/category/audio" className="hover:text-white transition-colors">Acoustics & Sound</Link>
