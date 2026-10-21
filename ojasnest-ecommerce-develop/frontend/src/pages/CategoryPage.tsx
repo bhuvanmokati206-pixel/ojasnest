@@ -5,6 +5,9 @@ import { Product } from '../types';
 import { ProductGrid } from '../components/shop/ProductGrid';
 import { SkeletonLoader } from '../components/ui/SkeletonLoader';
 import { demoTrimmer } from '../data/demoTrimmer';
+import { demoNoseTrimmer } from '../data/demoNoseTrimmer';
+import { demoWirelessCharger } from '../data/demoWirelessCharger';
+import { demoGaNPowerBank } from '../data/demoGaNPowerBank';
 
 export const CategoryPage: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -16,16 +19,31 @@ export const CategoryPage: React.FC = () => {
     api.get(`/products?category=${slug}`)
       .then((res) => {
         const categoryProducts: Product[] = res.data;
+        const demoProducts = [
+          ...(slug === 'grooming' ? [demoTrimmer, demoNoseTrimmer] : []),
+          ...(slug === 'wireless-chargers' ? [demoWirelessCharger] : []),
+          ...(slug === 'chargers' ? [demoGaNPowerBank] : []),
+        ].filter(
+          (product) => !categoryProducts.some((item) => item.slug === product.slug)
+        );
+
         setProducts(
-          slug === 'grooming' &&
-            !categoryProducts.some((product) => product.slug === demoTrimmer.slug)
-            ? [demoTrimmer, ...categoryProducts]
+          demoProducts.length > 0
+            ? [...demoProducts, ...categoryProducts]
             : categoryProducts
         );
       })
       .catch((error) => {
         console.error('Unable to load category products:', error);
-        setProducts(slug === 'grooming' ? [demoTrimmer] : []);
+        setProducts(
+          slug === 'grooming'
+            ? [demoTrimmer, demoNoseTrimmer]
+            : slug === 'wireless-chargers'
+              ? [demoWirelessCharger]
+              : slug === 'chargers'
+                ? [demoGaNPowerBank]
+                : []
+        );
       })
       .finally(() => setLoading(false));
   }, [slug]);

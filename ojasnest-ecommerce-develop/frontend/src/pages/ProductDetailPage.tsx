@@ -6,6 +6,9 @@ import { ProductGallery } from '../components/shop/ProductGallery';
 import { StockBadge } from '../components/shop/StockBadge';
 import { useCartStore } from '../context/useCartStore';
 import { demoTrimmer } from '../data/demoTrimmer';
+import { demoNoseTrimmer } from '../data/demoNoseTrimmer';
+import { demoWirelessCharger } from '../data/demoWirelessCharger';
+import { demoGaNPowerBank } from '../data/demoGaNPowerBank';
 
 export const ProductDetailPage: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -16,6 +19,21 @@ export const ProductDetailPage: React.FC = () => {
   useEffect(() => {
     if (slug === demoTrimmer.slug) {
       setProduct(demoTrimmer);
+      return;
+    }
+
+    if (slug === demoNoseTrimmer.slug) {
+      setProduct(demoNoseTrimmer);
+      return;
+    }
+
+    if (slug === demoWirelessCharger.slug) {
+      setProduct(demoWirelessCharger);
+      return;
+    }
+
+    if (slug === demoGaNPowerBank.slug) {
+      setProduct(demoGaNPowerBank);
       return;
     }
 
