@@ -109,8 +109,8 @@ export const HomePage: React.FC = () => {
             <h2 className="text-2xl sm:text-3xl font-extrabold text-white mt-1">Best sellers</h2>
             <p className="text-sm text-neutral-400 mt-1">A considered shortlist of Ojasnest essentials.</p>
           </div>
-          <Link to="/category/grooming" className="font-mono text-xs text-neutral-400 hover:text-white flex items-center gap-1">
-            EXPLORE THE COLLECTION <FiArrowUpRight />
+          <Link to="/best-sellers" className="font-mono text-xs text-neutral-400 hover:text-white flex items-center gap-1">
+            VIEW ALL BEST SELLERS <FiArrowUpRight />
           </Link>
         </div>
 
