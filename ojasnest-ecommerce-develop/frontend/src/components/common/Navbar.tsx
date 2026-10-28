@@ -64,6 +64,7 @@ export const Navbar: React.FC<{ onOpenCart: () => void }> = ({ onOpenCart }) => 
             { label: 'GaN-POWER BANK', path: '/category/chargers' },
             { label: 'WIRELESS CHARGERS', path: '/category/wireless-chargers' },
             { label: 'OTHERS', path: '/category/accessories' },
+            { label: '🔥 HOT DEALS', path: '/deal', isDrop: true },
             { label: 'BEST SELLERS', path: '/best-sellers', isDrop: true },
           ].map((item) => (
             <Link
@@ -75,7 +76,7 @@ export const Navbar: React.FC<{ onOpenCart: () => void }> = ({ onOpenCart }) => 
                   : 'hover:text-[#FF4D00] hover:bg-[#FF4D00]/10 border border-transparent hover:border-[#FF4D00]/30 hover:shadow-[0_0_15px_rgba(255,77,0,0.15)]'
               }`}
             >
-                <span className="relative z-10 whitespace-nowrap transition-transform duration-300 group-hover:scale-105">
+              <span className="relative z-10 whitespace-nowrap transition-transform duration-300 group-hover:scale-105">
                 {item.label}
               </span>
               {/* Animated glowing orange underline on hover */}

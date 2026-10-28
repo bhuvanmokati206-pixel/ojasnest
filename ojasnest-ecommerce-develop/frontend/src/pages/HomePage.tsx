@@ -11,6 +11,7 @@ import {
 } from 'react-icons/fi';
 import { HeroBanner } from '../components/shop/HeroBanner';
 import { ProductCard } from '../components/shop/ProductCard';
+import { DealsSection } from '../components/shop/DealsSection';
 import { Product } from '../types';
 import client from '../api/client';
 
@@ -136,18 +137,7 @@ export const HomePage: React.FC = () => {
       </section>
 
       {/* 4. Deals */}
-      <section className="border-y border-white/[0.08] bg-[#12151D] py-10">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6">
-          <div>
-            <span className="font-mono text-[11px] text-[#FF4D00] tracking-wider uppercase">DEALS &amp; SPECIAL OFFERS</span>
-            <h2 className="text-2xl font-extrabold text-white mt-1">A better setup, for less.</h2>
-            <p className="mt-2 text-sm text-neutral-400">See the latest offers across grooming, charging, and everyday accessories.</p>
-          </div>
-          <Link to="/offers" className="inline-flex shrink-0 items-center justify-center gap-2 bg-[#FF4D00] px-5 py-3 text-sm font-semibold text-white hover:bg-[#E03E00] transition-colors">
-            Explore deals <FiArrowUpRight />
-          </Link>
-        </div>
-      </section>
+      <DealsSection />
 
       {/* 5. Reviews */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
