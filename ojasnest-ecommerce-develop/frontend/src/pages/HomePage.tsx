@@ -12,6 +12,7 @@ import {
 import { HeroBanner } from '../components/shop/HeroBanner';
 import { ProductCard } from '../components/shop/ProductCard';
 import { DealsSection } from '../components/shop/DealsSection';
+import { CustomerReviewsSection } from '../components/shop/CustomerReviewsSection';
 import { Product } from '../types';
 import client from '../api/client';
 
@@ -139,25 +140,8 @@ export const HomePage: React.FC = () => {
       {/* 4. Deals */}
       <DealsSection />
 
-      {/* 5. Reviews */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
-        <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.2fr] gap-8 lg:gap-16 items-center">
-          <div>
-            <span className="font-mono text-[11px] text-[#FF4D00] tracking-wider uppercase">CUSTOMER REVIEWS</span>
-            <h2 className="text-2xl sm:text-3xl font-extrabold text-white mt-2">Made better by real routines.</h2>
-            <p className="mt-3 max-w-xl text-sm leading-relaxed text-neutral-400">We’re preparing a verified review collection. When customers share their experience, their feedback will live here.</p>
-          </div>
-          <div className="border-y border-white/[0.1] py-7 flex items-center gap-5">
-            <div className="flex h-12 w-12 shrink-0 items-center justify-center border border-[#FF4D00]/30 bg-[#FF4D00]/10 text-[#FF4D00]">
-              <FiStar className="text-xl" />
-            </div>
-            <div>
-              <p className="text-sm font-semibold text-white">Verified customer reviews</p>
-              <p className="mt-1 text-xs text-neutral-500">Reviews will appear here as they become available.</p>
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* 5. Customer Reviews Carousel */}
+      <CustomerReviewsSection />
 
       {/* 6. Grooming guide */}
       <section className="border-t border-white/[0.08] bg-[#0E1116] py-14">

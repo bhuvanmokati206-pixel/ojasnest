@@ -44,16 +44,23 @@ export const ProductDetailPage: React.FC = () => {
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 lg:py-12">
-      <div className="mb-5 text-xs text-neutral-400">
-        <Link to="/" className="transition hover:text-white">Home</Link>
-        <span className="mx-2">/</span>
-        <Link to="/category/grooming" className="transition hover:text-white">Trimmers</Link>
-        <span className="mx-2">/</span>
+      <div className="mb-5 text-xs text-neutral-400 font-mono">
+        <Link to="/" className="transition hover:text-[#FF4D00]">Home</Link>
+        <span className="mx-2 text-neutral-600">/</span>
+        <Link to={`/category/${product.category?.slug || 'grooming'}`} className="transition hover:text-[#FF4D00]">
+          {product.category?.name || 'Trimmers'}
+        </Link>
+        <span className="mx-2 text-neutral-600">/</span>
         <span className="text-neutral-200">{product.title}</span>
       </div>
 
       <div className="grid grid-cols-1 gap-8 lg:grid-cols-[minmax(0,1.25fr)_minmax(340px,0.75fr)] lg:gap-12">
-        <div className="rounded-2xl bg-[#F3F0E9] p-3 sm:p-5 lg:p-7">
+        {/* Gallery container with sleek black backdrop and orange glowing border */}
+        <div className="relative rounded-2xl bg-black border border-[#FF4D00]/40 p-3 sm:p-5 lg:p-7 shadow-[0_0_40px_rgba(255,77,0,0.14)] overflow-hidden">
+          {/* Subtle ambient orange corner light flare */}
+          <div className="pointer-events-none absolute -top-24 -left-24 h-64 w-64 rounded-full bg-[#FF4D00]/10 blur-3xl" />
+          <div className="pointer-events-none absolute -bottom-24 -right-24 h-64 w-64 rounded-full bg-[#FF4D00]/10 blur-3xl" />
+          
           <ProductGallery images={product.images} title={product.title} />
         </div>
 
@@ -103,7 +110,7 @@ export const ProductDetailPage: React.FC = () => {
               setAddedToCart(true);
             }}
             disabled={product.stock <= 0}
-            className="mt-8 w-full rounded-md bg-[#FF4D00] px-6 py-4 text-sm font-bold uppercase tracking-wider text-white transition hover:bg-[#E03E00] disabled:cursor-not-allowed disabled:bg-neutral-700"
+            className="mt-8 w-full rounded-md bg-[#FF4D00] px-6 py-4 text-sm font-bold uppercase tracking-wider text-white transition hover:bg-[#E03E00] shadow-[0_0_20px_rgba(255,77,0,0.35)] hover:shadow-[0_0_30px_rgba(255,77,0,0.55)] disabled:cursor-not-allowed disabled:bg-neutral-700"
           >
             {addedToCart ? 'Added to cart' : 'Add to cart'}
           </button>

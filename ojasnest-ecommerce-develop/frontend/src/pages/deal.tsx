@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import {
   FiSearch,
   FiZap,
@@ -77,69 +77,82 @@ const CountdownDisplay: React.FC<{ endsInHours: number; startedAt: number; size?
 
 // Deal card (full-featured)
 const DealCard: React.FC<{ deal: DealProduct; startedAt: number }> = ({ deal, startedAt }) => {
+  const navigate = useNavigate();
   const addItem = useCartStore((s) => s.addItem);
   const [added, setAdded] = useState(false);
 
-  const handleAdd = () => {
+  const handleAdd = (e?: React.MouseEvent) => {
+    e?.stopPropagation();
     addItem({ ...deal, price: deal.dealPrice });
     setAdded(true);
     setTimeout(() => setAdded(false), 2200);
   };
 
-  const claimedColor =
-    deal.claimedPercentage >= 80 ? 'bg-red-500' : deal.claimedPercentage >= 50 ? 'bg-amber-500' : 'bg-emerald-500';
-
   return (
-    <div className="group relative flex flex-col rounded-2xl bg-[#0D1017] border border-white/[0.07] hover:border-[#FF4D00]/50 hover:shadow-[0_0_35px_rgba(255,77,0,0.12)] transition-all duration-300 overflow-hidden">
+    <div
+      onClick={() => navigate(`/product/${deal.slug}`)}
+      className="group relative cursor-pointer flex flex-col rounded-2xl bg-[#0D1017] border border-white/[0.07] hover:border-[#FF4D00]/50 hover:shadow-[0_0_35px_rgba(255,77,0,0.12)] transition-all duration-300 overflow-hidden"
+    >
       {/* Ambient glow */}
       <div className="pointer-events-none absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-[radial-gradient(ellipse_at_50%_0%,rgba(255,77,0,0.08),transparent_70%)]" />
 
-      {/* Image area */}
-      <div className="relative w-full h-48 bg-[#0A0C10] border-b border-white/[0.04] flex items-center justify-center p-4 overflow-hidden">
+      {/* 1. Zoomed Product Image area */}
+      <div className="relative w-full h-60 bg-[#0A0C10] border-b border-white/[0.04] flex items-center justify-center overflow-hidden">
         <img
           src={deal.images?.[0] || '/placeholder.png'}
           alt={deal.title}
-          className="max-h-full max-w-full object-contain transition-transform duration-500 group-hover:scale-110"
+          className="w-full h-full object-cover object-center scale-110 transition-transform duration-500 group-hover:scale-125"
         />
 
         {/* Top-left badges */}
-        <div className="absolute top-3 left-3 flex flex-col gap-1.5">
-          <span className="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-[#FF4D00] text-white font-mono text-[10px] font-black shadow-[0_0_10px_rgba(255,77,0,0.5)]">
+        <div className="absolute top-3 left-3 flex flex-col gap-1.5 z-10">
+          <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-[#FF4D00] text-white font-mono text-[10px] font-black shadow-[0_0_10px_rgba(255,77,0,0.5)]">
             -{deal.discountPercentage}% OFF
           </span>
           {deal.isFlashDeal ? (
-            <span className="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-[#FF4D00]/15 border border-[#FF4D00]/40 text-[#FF4D00] font-mono text-[9px] font-bold animate-pulse">
+            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-[#FF4D00]/20 border border-[#FF4D00]/50 text-[#FF4D00] font-mono text-[9px] font-bold animate-pulse backdrop-blur-md">
               <FiZap className="text-[9px]" /> {deal.dealBadge}
             </span>
           ) : (
-            <span className="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-white/[0.06] border border-white/10 text-neutral-300 font-mono text-[9px] font-bold">
+            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-black/70 border border-white/10 text-neutral-300 font-mono text-[9px] font-bold backdrop-blur-md">
               <FiTag className="text-[9px]" /> {deal.dealBadge}
             </span>
           )}
         </div>
 
+        {/* Corner Claimed Symbol & Badge */}
+        <div
+          className="absolute top-3 right-3 z-10 flex items-center gap-1 px-2.5 py-1 rounded-full bg-black/80 backdrop-blur-md border border-white/10 font-mono text-[10px] font-bold text-neutral-200 shadow-lg"
+          title={`${deal.claimedPercentage}% claimed (${deal.totalStock - deal.claimedCount} left)`}
+        >
+          <FiTrendingUp className="text-[11px] text-[#FF4D00]" />
+          <span>{deal.claimedPercentage}%</span>
+        </div>
+
         {/* Timer bottom-right */}
-        <div className="absolute bottom-3 right-3 px-2 py-1 rounded bg-black/70 backdrop-blur-sm border border-white/10 flex items-center gap-1">
+        <div className="absolute bottom-3 right-3 z-10 px-2 py-1 rounded-md bg-black/75 backdrop-blur-md border border-white/10 flex items-center gap-1">
           <CountdownDisplay endsInHours={deal.endsInHours} startedAt={startedAt} />
         </div>
 
-        {/* Inspect icon */}
+        {/* Quick Inspect icon bottom-left */}
         <Link
           to={`/product/${deal.slug}`}
-          className="absolute top-3 right-3 p-1.5 rounded-full bg-[#0D0D10]/80 text-neutral-300 hover:text-white hover:bg-[#FF4D00] border border-white/10 opacity-0 group-hover:opacity-100 transition-all duration-200"
+          className="absolute bottom-3 left-3 z-10 p-1.5 rounded-full bg-black/75 text-neutral-300 hover:text-white hover:bg-[#FF4D00] border border-white/10 opacity-0 group-hover:opacity-100 transition-all duration-200 backdrop-blur-sm"
+          title="Inspect"
         >
-          <FiArrowUpRight className="w-3 h-3" />
+          <FiArrowUpRight className="w-3.5 h-3.5" />
         </Link>
       </div>
 
-      {/* Card body */}
+      {/* 2. Card body: Name then Price with Add to Cart */}
       <div className="relative z-10 flex flex-col flex-1 p-4">
         <span className="text-[9px] font-semibold uppercase tracking-widest text-[#FF5722]">
           {deal.category?.name}
         </span>
 
+        {/* Product Name */}
         <Link to={`/product/${deal.slug}`} className="mt-1 block">
-          <h3 className="text-sm font-bold text-neutral-100 line-clamp-1 group-hover:text-white transition-colors">
+          <h3 className="text-base font-bold text-neutral-100 line-clamp-1 group-hover:text-white transition-colors">
             {deal.title}
           </h3>
         </Link>
@@ -161,37 +174,13 @@ const DealCard: React.FC<{ deal: DealProduct; startedAt: number }> = ({ deal, st
           </span>
         </div>
 
-        {/* Claimed progress */}
-        <div className="mt-3">
-          <div className="flex justify-between mb-1">
-            <span className="flex items-center gap-1 font-mono text-[9px] text-neutral-400">
-              <FiTrendingUp className="text-[9px]" />
-              {deal.claimedPercentage}% Claimed
-            </span>
-            <span className="font-mono text-[9px] text-neutral-500">
-              {deal.totalStock - deal.claimedCount} left
-            </span>
-          </div>
-          <div className="h-1.5 w-full rounded-full bg-white/[0.06] overflow-hidden">
-            <div
-              className={`h-full rounded-full transition-all ${claimedColor}`}
-              style={{ width: `${deal.claimedPercentage}%` }}
-            />
-          </div>
-          {deal.claimedPercentage >= 80 && (
-            <p className="mt-1 font-mono text-[9px] text-red-400 animate-pulse">
-              🔥 Hurry! {deal.totalStock - deal.claimedCount} units remaining
-            </p>
-          )}
-        </div>
-
-        {/* Price + Add to Cart */}
-        <div className="mt-4 pt-3 border-t border-white/[0.06] flex items-end justify-between gap-2">
+        {/* 3. Price with Add to Cart */}
+        <div className="mt-auto pt-4 border-t border-white/[0.06] flex items-end justify-between gap-2">
           <div>
             <span className="block text-[10px] text-neutral-500 line-through font-mono">
               £{deal.originalPrice.toFixed(2)}
             </span>
-            <span className="text-lg font-black text-white tracking-tight leading-none">
+            <span className="text-xl font-black text-white tracking-tight leading-none">
               £{deal.dealPrice.toFixed(2)}
             </span>
             <span className="block text-[9px] text-emerald-400 font-mono mt-0.5">
@@ -201,11 +190,11 @@ const DealCard: React.FC<{ deal: DealProduct; startedAt: number }> = ({ deal, st
           <button
             onClick={handleAdd}
             disabled={deal.stock <= 0}
-            className={`flex items-center gap-1.5 px-3.5 py-2 rounded-full text-xs font-bold transition-all duration-200 shadow-[0_0_16px_rgba(255,77,0,0.3)] hover:shadow-[0_0_24px_rgba(255,77,0,0.5)] hover:scale-105 active:scale-95 disabled:opacity-40 disabled:cursor-not-allowed ${
+            className={`flex items-center gap-1.5 px-4 py-2.5 rounded-full text-xs font-bold transition-all duration-200 shadow-[0_0_16px_rgba(255,77,0,0.3)] hover:shadow-[0_0_24px_rgba(255,77,0,0.5)] hover:scale-105 active:scale-95 disabled:opacity-40 disabled:cursor-not-allowed ${
               added ? 'bg-emerald-500 hover:bg-emerald-400 text-white' : 'bg-[#FF4D00] hover:bg-[#E03E00] text-white'
             }`}
           >
-            {added ? <><FiCheck className="w-3 h-3" /> Added</> : <><FiShoppingBag className="w-3 h-3" /> Add</>}
+            {added ? <><FiCheck className="w-3.5 h-3.5" /> Added</> : <><FiShoppingBag className="w-3.5 h-3.5" /> Add</>}
           </button>
         </div>
       </div>
